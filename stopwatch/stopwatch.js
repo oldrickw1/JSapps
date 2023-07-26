@@ -1,5 +1,7 @@
 let time = 0;
 let myInterval;
+let isTimer = false;
+let isRunning = false;
 
 const timeDisplay = document.querySelector("#time-display");
 
@@ -7,23 +9,46 @@ const startBtn = document.querySelector("#start-button");
 const pauseBtn = document.querySelector("#pause-button");
 const resetBtn = document.querySelector("#reset-button");
 
+const modusToggleBtn = document.querySelector("#modus-toggle-button")
+
+modusToggleBtn.onclick = () => {
+    if (isTimer) {
+        modusToggleBtn.textContent = "Timer";
+        isTimer = false;
+        const inputDisplay = document.createElement("input");
+        inputDisplay.setAttribute("type", "text");
+        inputDisplay.setAttribute("value", "--:--:--")
+        document.querySelector("#time-display") = timeDisplay;
+        // timeDisplay.
+
+    } else {
+        modusToggleBtn.textContent = "Stopwatch";
+        isTimer = true;
+       
+        document.querySelector("#time-display");
+    }
+}
+
 startBtn.onclick = () => {
-    console.log("start");
-    myInterval = setInterval(() => {
-        time += 1;
-        updateTime();
-    }, 1000);
-    
+    if (!isRunning) {
+        isRunning = true;
+        myInterval = setInterval(() => {
+            time += 1;
+            updateTime();
+        }, 1000);
+    }
 }
 
 pauseBtn.onclick = () => {
-    console.log("pause");
-    clearInterval(myInterval);
-    updateTime();
+    if (isRunning) {
+        isRunning = false;
+        clearInterval(myInterval);
+        updateTime();
+    }
 }
 
 resetBtn.onclick = () => {
-    console.log("reset");
+    isRunning = false;
     clearInterval(myInterval);
     time = 0;
     updateTime();

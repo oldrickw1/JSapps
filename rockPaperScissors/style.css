@@ -1,0 +1,52 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
+#rps {
+    background-color: beige;
+    border: 3px solid black;
+    border-radius:  15px;
+    width: 600px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.result-display {
+    font-size: 25px;
+    font-family: consolas, monospace;
+}
+
+#player-choice {
+    color: blue;
+}
+#computer-choice {
+    color: red;
+}
+
+.option{
+    width: 150px;
+    margin: 5px;
+    font-size: 25px;
+    font-family: consolas, monospace;
+}
+
+.score {
+    font-size: 25px;
+    font-family: consolas, monospace;
+    margin: 10px;
+}
+
+
+.scores {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
