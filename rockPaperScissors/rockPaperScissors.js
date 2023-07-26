@@ -13,20 +13,27 @@ score.set("computer", 0);
 score.set("player", 0);
 
 
-
-
 const playerChoiceDisplay = document.querySelector("#player-choice");
 const computerChoiceDisplay = document.querySelector("#computer-choice");
 const resultDisplay = document.querySelector("#game-result");
 
-const buttons = document.getElementsByClassName("option")
+const buttons = document.querySelectorAll(".option")
 
 const playerScoreDisplay = document.querySelector("#player-score");
 const computerScoreDisplay = document.querySelector("#computer-score");
 
-Array.from(buttons).forEach(btn => {
+buttons.forEach(btn => {
     btn.onclick = playRound;
 })
+
+function playRound(event) {
+    playerChoice = event.target.innerHTML.toLowerCase();
+    console.log("Player choice: " + playerChoice);
+    makeComputerChoice();
+    determineOutcome();
+    updateScore();
+    displayResult();
+}
 
 function displayResult() {
     playerChoiceDisplay.textContent = "Player: " + playerChoice;
@@ -42,17 +49,12 @@ function makeComputerChoice() {
 }
 
 function determineOutcome() {
-    let outcomePair = playerChoice + "-" + computerChoice;
-
-    table.forEach((arrayOfResults, key) => {
-        arrayOfResults.forEach(resultOption => {
-            if (resultOption == outcomePair) {
-                result = key;
-                console.log("result of game: " + result);
-                return;
-            }
-        })
-    })
+  for (const [key, arrayOfResults] of table) {
+    if (arrayOfResults.includes(playerChoice + "-" + computerChoice)) {
+      result = key;
+      return; 
+    }
+  }
 }
 
 function updateScore() {
@@ -70,11 +72,3 @@ function displayScore() {
     console.log("Player score: " + score.get("player") + ",\nComputer score: " + score.get("computer"));
 }
 
-function playRound(event) {
-    playerChoice = event.target.innerHTML.toLowerCase();
-    console.log("Player choice: " + playerChoice);
-    makeComputerChoice();
-    determineOutcome();
-    updateScore();
-    displayResult();
-}
