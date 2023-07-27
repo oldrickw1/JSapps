@@ -9,8 +9,10 @@ const boardBackground = "white";
 const snakeColor = "lightgreen";
 const snakeBorder = "black";
 const foodColor = "red";
-const UNIT_SIZE = 25;
+const UNIT_SIZE = 20;
 
+let timeBetweenTick = 100;
+let timeOutID = null;
 let running = false;
 let velocityX = UNIT_SIZE;
 let velocityY = 0;
@@ -26,33 +28,33 @@ let score = 0;
 
 window.addEventListener("keydown", changeDirection);
 window.addEventListener("keydown", (event) => {
-    if (event.key == "Enter") {
+    if (!running) {
+        resetGame();
+    }
+    else if (event.key == "Enter") {
         resetGame();
     } 
 });
-
 resetButton.addEventListener("click", resetGame);
 
-gameStart();
 
 function gameStart() {
     running = true;
     scoreDisplay.textContent = score;
     createFood();
-    drawFood();
     nextTick();
 
 }
 function nextTick(){
     if (running) {
-        setTimeout(() => {
+        timeOutID = setTimeout(() => {
             clearBoard();
             drawFood();
             moveSnake();
             drawSnake();
             checkGameOver();
             nextTick();
-        }, 250)
+        }, timeBetweenTick)
     }
 };
 function clearBoard(){
@@ -74,7 +76,9 @@ function moveSnake(){
     const head = {x:(snake[0].x + velocityX), y:(snake[0].y + velocityY)};
     snake.unshift(head);
     if (head.x == foodX && head.y == foodY) {
+        scoreDisplay.textContent = ++score;
         createFood()
+        --timeBetweenTick;
         return;
     }
     snake.pop();
@@ -136,11 +140,13 @@ function checkGameOver(){
 };
 function displayGameOver(){
     ctx.fillStyle = "black";
+    ctx.textAlign = "center"
     ctx.font = "30px Arial";
     ctx.fillText("Game Over", GAME_WIDTH / 2, GAME_HEIGHT / 2);
 };
 function resetGame(){
-    clearBoard();
+    clearTimeout(timeOutID);
+    timeBetweenTick = 100;
     score = 0;
     velocityX = UNIT_SIZE;
     velocityY = 0;
